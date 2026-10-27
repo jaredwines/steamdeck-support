@@ -12,3 +12,7 @@ Every new or materially changed procedure must follow the
 [verification standard](verification.md): state prerequisites and approval,
 include expected results and recovery, record compatibility evidence, and pass
 the repository validation check.
+
+Use the [support-session record template](support-session-record-template.md)
+for private working notes. Do not commit a completed record; transfer only
+sanitized, reusable findings into the runbook that owns the topic.

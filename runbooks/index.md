@@ -55,8 +55,10 @@ complete, run `sudo -k` to clear temporary authorization and then `exit`.
 | Plan or recover from a full internal-drive wipe | [Full-system restore](full-system-restore.md) |
 | Plan, perform, document, and hand off support work | [Support session](support-session.md) |
 | Collect safe diagnostics or resolve common access failures | [Diagnostics](diagnostics.md) |
+| Triage storage, applications, games, input, audio, or networking | [Common issues](common-issues.md) |
 | Add a non-Steam game, launcher, or artwork | [Non-Steam games](non-steam-games.md) |
 | Record compatibility evidence or review a procedure | [Verification standard](verification.md) |
+| Prepare a private support-session record | [Session record template](support-session-record-template.md) |
 
 ## Before handoff
 

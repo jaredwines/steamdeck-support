@@ -12,18 +12,20 @@ or replacing an SSH key, changing global Git configuration, or registering a
 public key with GitHub is security-sensitive and requires the owner's explicit
 approval. Confirm the intended GitHub account before changing anything.
 
-## Configured identity
+## Inspect the configured identity
 
-The Deck's configured commit identity is:
+Git identity and key paths are owner-specific. Inspect them before changing
+anything; do not copy personal values from this runbook:
 
 ```bash
-git config --global user.name "jaredwines"
-git config --global user.email "jwines760@gmail.com"
+git config --global --get user.name
+git config --global --get user.email
+git config --global --get core.sshCommand
 ```
 
-GitHub SSH access uses `~/.ssh/id_ed25519_git`. Its private key must remain
-local with mode `600`; only its `.pub` companion may be added to GitHub. Never
-put either key in a repository or support ticket.
+This Deck conventionally uses `~/.ssh/id_ed25519_git`. Its private key must
+remain local with mode `600`; only its `.pub` companion may be added to GitHub.
+Never put either key in a repository or support ticket.
 
 Git selects the key with:
 
@@ -31,13 +33,12 @@ Git selects the key with:
 git config --global core.sshCommand 'ssh -i /home/deck/.ssh/id_ed25519_git -o IdentitiesOnly=yes'
 ```
 
-Treat this identity as device-specific configuration, not as a template for a
-different owner. Before changing it, inspect the existing values:
+Treat every identity as device-specific configuration. With explicit approval,
+set the intended values only after confirming the target GitHub account:
 
 ```bash
-git config --global --get user.name
-git config --global --get user.email
-git config --global --get core.sshCommand
+git config --global user.name '<intended-name>'
+git config --global user.email '<intended-email>'
 ```
 
 ## Restore and verify
@@ -54,9 +55,10 @@ Then verify authentication:
 ssh -T git@github.com
 ```
 
-Expected result: a greeting for `jaredwines` followed by a note that GitHub
-does not provide shell access. `Permission denied (publickey)` means the public
-key is missing from the account or Git is not selecting the configured key.
+Expected result: a greeting for the intended account followed by a note that
+GitHub does not provide shell access. `Permission denied (publickey)` means the
+public key is missing from the account or SSH is not selecting the configured
+key.
 
 ## If the dedicated key is missing
 

@@ -17,10 +17,11 @@ mention; use **SS** afterward only when the abbreviation improves clarity.
 ## Supported scope
 
 SS currently covers remote access, temporary sudo authorization, GitHub SSH
-access, full-system restore planning, safe diagnostics, support-session
-handoff, and non-Steam game/launcher artwork. “Verified” means a procedure
-produced the documented result when it was used; it does not mean that every
-procedure is valid for every SteamOS release or network.
+access, full-system restore planning, safe diagnostics, common SteamOS issue
+triage, support-session handoff, and non-Steam game/launcher artwork.
+“Verified” means a procedure produced the documented result when it was used;
+documentation review alone is labeled separately and does not establish
+on-device compatibility.
 
 Before using a runbook, confirm its prerequisites and record the current
 SteamOS build and relevant result as described in the
@@ -35,9 +36,10 @@ Run the local quality checks after documentation or artwork changes:
 bash scripts/validate-repository.sh
 ```
 
-The check verifies local Markdown links, the exact `AGENTS.md` backup, required
-files, shell syntax, and the dimensions and alpha channel of backed-up artwork.
-The same check runs automatically for pushes and pull requests.
+The check verifies local Markdown links, required runbook structure, common
+secret patterns, the exact `AGENTS.md` backup, shell syntax, and the dimensions
+and alpha channel of backed-up artwork. CI also checks external links on pushes
+and pull requests.
 
 ## Update this repository
 

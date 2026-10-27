@@ -17,6 +17,8 @@ required_files=(
   codex/AGENTS.md
   README.md
   runbooks/index.md
+  runbooks/common-issues.md
+  runbooks/support-session-record-template.md
   runbooks/verification.md
 )
 
@@ -27,6 +29,37 @@ done
 if ! cmp -s AGENTS.md codex/AGENTS.md; then
   fail 'codex/AGENTS.md is not an exact backup of AGENTS.md'
 fi
+
+retired_root='/home/deck/Documents/'
+retired_root+='codex-steamdeck-support'
+if grep -RIl --exclude-dir=.git --exclude=AGENTS.md "$retired_root" . | grep -q .; then
+  fail 'repository contains the retired project path'
+fi
+
+if grep -RIEIl --exclude-dir=.git \
+  'BEGIN ([A-Z0-9]+ )?PRIVATE KEY|github_pat_[A-Za-z0-9_]+|gh[opurs]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}' \
+  . | grep -q .; then
+  fail 'repository contains text matching a common secret pattern'
+fi
+
+structured_runbooks=(
+  runbooks/common-issues.md
+  runbooks/diagnostics.md
+  runbooks/github-access.md
+  runbooks/non-steam-games.md
+  runbooks/remote-access.md
+  runbooks/sudo-access.md
+  runbooks/verification.md
+)
+
+for runbook in "${structured_runbooks[@]}"; do
+  grep -Eq '^## (Purpose|Purpose and status)$' "$runbook" ||
+    fail "$runbook is missing a purpose section"
+  grep -Eq '^## (Approval|Approval and prerequisites|Approval and sanitization|Before using a runbook)' "$runbook" ||
+    fail "$runbook is missing an approval or prerequisite section"
+  grep -Eq '^## (Verification|Verification and recovery|Verification record|Evidence required after a change)' "$runbook" ||
+    fail "$runbook is missing a verification section"
+done
 
 while IFS=$'\t' read -r source_file target; do
   case "$target" in

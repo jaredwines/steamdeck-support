@@ -8,6 +8,14 @@ owns the file mapping, backup, installation, restart, troubleshooting, and
 per-game record. Verified artwork is stored under
 [`steam/artworks/`](../steam/artworks/).
 
+## Approval and prerequisites
+
+Inspecting an existing shortcut and artwork is read-only. Adding or changing a
+shortcut, replacing artwork, closing software, or restarting Steam requires
+the owner's approval. Confirm the intended display name, exact executable,
+Steam user, and App ID before changing files. Keep a timestamped backup and a
+working path back to Gaming Mode.
+
 ## Standard workflow
 
 1. Add or inspect the shortcut in Desktop Mode.

@@ -19,6 +19,10 @@ expected result, recovery path, and sanitized evidence. A request to diagnose
 does not by itself authorize a repair, and approval for one change does not
 authorize additional system changes.
 
+Copy the [support-session record template](support-session-record-template.md)
+outside the repository for working notes. Keep the completed record private if
+it contains device, network, account, or other identifying information.
+
 ## Verify and hand off
 
 After significant changes, reboot only when appropriate, confirm Gaming Mode
