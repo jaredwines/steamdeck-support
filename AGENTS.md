@@ -6,9 +6,9 @@
 - The canonical project root is `/home/deck/steamdeck-support`.
 - Do not use the retired path `/home/deck/Documents/codex-steamdeck-support`.
 - This project supports a Steam Deck running SteamOS.
-- Read `main-support.md` before performing support work.
+- Read `runbooks/index.md` before performing support work.
 - The expected SSH target is `deck@192.168.1.67`; treat it as expected, not guaranteed.
-- Keep detailed support procedures in `main-support.md`; do not duplicate them here.
+- Keep detailed support procedures in `runbooks/`; do not duplicate them here.
 
 ## Required workflow
 
@@ -33,12 +33,12 @@
 
 ## Stop conditions
 
-- Stop and report when the system conflicts with `main-support.md`, or when the target, authorization, consequences, or recovery path is unclear.
+- Stop and report when the system conflicts with the applicable runbook, or when the target, authorization, consequences, or recovery path is unclear.
 - Do not force a documented procedure when verification fails.
 
 ## Verification and handoff
 
 - Report commands run, files changed, checks performed, and unresolved risks.
 - After significant system work, confirm that Gaming Mode operates normally.
-- Update `main-support.md` when a verified support procedure changes.
+- Update the applicable runbook when a verified support procedure changes.
 - Keep this file concise and free of secrets and duplicated tutorials.
