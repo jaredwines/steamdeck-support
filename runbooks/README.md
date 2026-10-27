@@ -8,7 +8,7 @@ Add a runbook update only after work is verified and reusable. Keep commands,
 approval requirements, recovery steps, and verification results accurate; do
 not record credentials or sensitive diagnostics.
 
-Before publishing an intended update, run `git status`, stage only the
-intended files, review `git diff --cached`, then commit and push from the
-repository root. See the [repository README](../README.md) for the full
-workflow.
+Every new or materially changed procedure must follow the
+[verification standard](verification.md): state prerequisites and approval,
+include expected results and recovery, record compatibility evidence, and pass
+the repository validation check.

@@ -8,8 +8,3 @@ for the repeatable setup procedure. Artwork backups are in
 
 Add only verified guidance or the intended artwork backup. Do not commit
 account credentials, private keys, tokens, or sensitive diagnostics.
-
-Before publishing an intended update, run `git status`, stage only the
-intended files, review `git diff --cached`, then commit and push from the
-repository root. See the [repository README](../README.md) for the full
-workflow.

@@ -55,6 +55,7 @@ complete, run `sudo -k` to clear temporary authorization and then `exit`.
 | Plan, perform, document, and hand off support work | [Support session](support-session.md) |
 | Collect safe diagnostics or resolve common access failures | [Diagnostics](diagnostics.md) |
 | Add a non-Steam game, launcher, or artwork | [Non-Steam games](non-steam-games.md) |
+| Record compatibility evidence or review a procedure | [Verification standard](verification.md) |
 
 ## Before handoff
 
@@ -63,3 +64,4 @@ complete, run `sudo -k` to clear temporary authorization and then `exit`.
 - [ ] Temporary sudo authorization was cleared, if used.
 - [ ] Remote access was reviewed or disabled when it is no longer needed.
 - [ ] Verified reusable knowledge was added to the applicable runbook.
+- [ ] SteamOS build, procedure result, and any deviations were recorded.

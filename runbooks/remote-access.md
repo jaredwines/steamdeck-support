@@ -4,6 +4,13 @@
 
 Use this runbook to prepare, verify, or end SSH access to the Steam Deck.
 
+## Approval and prerequisites
+
+Inspecting network and SSH status is read-only. Setting a password, enabling or
+disabling SSH, authorizing or revoking a key, and changing SSH configuration
+require the owner's explicit approval. Perform setup in Desktop Mode with local
+access available so a failed remote change cannot lock out the owner.
+
 ## Prepare the Deck
 
 In Desktop Mode, open Konsole. Set or update the `deck` password if necessary:
@@ -96,6 +103,31 @@ storage; authorize its public key for `deck` with a clear comment such as
 `codex-steamdeck`. Test an explicit identity path before relying on it. Revoke
 that public-key line when the environment no longer needs access.
 
+## Revoke a dedicated key
+
+With explicit approval, keep one working session open and back up the current
+authorization file before editing it:
+
+```bash
+backup="$HOME/.ssh/authorized_keys.backup-$(date +%Y%m%d-%H%M%S)"
+cp -p ~/.ssh/authorized_keys "$backup"
+chmod 600 "$backup"
+ssh-keygen -lf ~/.ssh/authorized_keys
+```
+
+Match the fingerprint of the public key being revoked, then remove only that
+exact line from `~/.ssh/authorized_keys` with a local editor. Do not paste the
+file into a support ticket. Restore mode `600`, then confirm a new connection
+using the revoked key fails while an intended access method still succeeds:
+
+```bash
+chmod 600 ~/.ssh/authorized_keys
+```
+
+If intended access fails, restore the timestamped backup from the session that
+remained open and re-test. Keep the backup until access and Gaming Mode are
+confirmed normal.
+
 ## End temporary access
 
 `exit` closes only the session. When remote access is no longer needed, and
@@ -108,3 +140,10 @@ systemctl is-active sshd
 
 Expected result: `inactive`. Never forward Internet TCP port 22 to the Deck;
 use a trusted local network or a properly configured VPN.
+
+## Verification record
+
+Record the SteamOS build, connection type, verified target identity, access
+method tested, SSH service state at handoff, and whether a backup remains.
+Record only the public-key fingerprint when needed—never key material. Follow
+the [verification standard](verification.md).

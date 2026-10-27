@@ -32,7 +32,13 @@ reliable custom artwork in Desktop Mode and Gaming Mode.
 4. Configure compatibility settings or launch options when the game needs
    Proton or a launcher-specific command.
 5. Restart Steam once so it saves the shortcut information.
-6. Record the shortcut App ID before adding artwork.
+6. Identify the shortcut App ID using the Steam client or an already installed,
+   trusted shortcut inspection tool. Confirm it against both the display name
+   and exact executable/launcher path; do not guess or reuse another shortcut's
+   ID.
+7. Record the confirmed App ID before adding artwork. If the current Steam
+   build offers no trustworthy way to obtain it, stop rather than applying an
+   unverified calculation.
 
 ## 2. Create the four artwork files
 
@@ -117,6 +123,10 @@ In Gaming Mode, verify all four views:
 - Selected-game hero: correct background with no baked title.
 - Hero title: one readable transparent Steam logo, with no duplicate title.
 
+If any view is wrong and cannot be corrected immediately, restore the files
+from the timestamped backup, restart Steam safely, and verify the original
+artwork is visible again.
+
 ## Troubleshooting
 
 | Problem | Likely cause and fix |
@@ -148,3 +158,7 @@ Copy this block for each new game:
 - Gaming Mode verified: Yes / No
 - Notes:
 ```
+
+Also record the SteamOS version/build and the date of verification. Use the
+[SS verification standard](../runbooks/verification.md) for the complete
+evidence and sanitization requirements.

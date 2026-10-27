@@ -2,43 +2,24 @@
 
 ## Purpose
 
-Use this runbook to add or verify a non-Steam game or launcher. For the full
-repeatable procedure, use the [Non-Steam Game & Artwork Setup Guide](../steam/add-non-steam-game-and-artwork-guide.md). Verified artwork backups are in
-[`steam/artworks/battle.net`](../steam/artworks/battle.net/) and
-[`steam/artworks/wowup-curseforge`](../steam/artworks/wowup-curseforge/).
+Use this runbook as the entry point for non-Steam shortcuts. The
+[Non-Steam Game & Artwork Setup Guide](../steam/add-non-steam-game-and-artwork-guide.md)
+owns the file mapping, backup, installation, restart, troubleshooting, and
+per-game record. Verified artwork is stored under
+[`steam/artworks/`](../steam/artworks/).
 
 ## Standard workflow
 
-1. Add or inspect the shortcut in Desktop Mode and record its App ID.
-2. Back up existing Steam grid files before replacing them.
-3. Install the four format-specific artwork files.
-4. Confirm the game and launcher are closed before restarting Steam.
+1. Add or inspect the shortcut in Desktop Mode.
+2. Confirm its App ID against both its name and exact executable path.
+3. Back up existing Steam grid files, then install all four artwork formats.
+4. Close the game, launcher, Proton, and Wine processes before restarting Steam.
 5. Verify the wide cover, portrait cover, selected-game hero, and title logo in Gaming Mode.
 
-## Verified artwork mapping
-
-| File | Size | Purpose | Title rule |
-| --- | ---: | --- | --- |
-| `<appid>.png` | 920 x 430 | Wide library cover | Bake the title into the image. |
-| `<appid>p.png` | 600 x 900 | Portrait cover | Bake the title into the image. |
-| `<appid>_hero.png` | 1920 x 620 | Selected-game hero background | Do not bake in a title. |
-| `<appid>_logo.png` | 1200 x 300 | Hero title logo | Transparent PNG; title only. |
-
-The plain `.png` is the wide cover and `p.png` is the portrait cover. Steam
-overlays the transparent logo on the hero; a title in both appears twice.
-
-## Restart Steam safely
-
-Confirm no game, launcher, Proton, or Wine process is active. Then restart the
-Steam user service:
-
-```bash
-systemctl --user restart app-steam@autostart.service
-pgrep -u deck -x steam >/dev/null && echo "STEAM_RUNNING"
-```
-
-Do not force-close Steam while software is running unless the owner explicitly
-approves interrupting it.
+Do not guess an App ID, force-close running software without approval, or
+replace artwork without a timestamped backup. If no trusted method on the
+current Steam build exposes the App ID, stop and record the gap rather than
+using an unverified calculation.
 
 ## WowUp (CurseForge) for WoW Forever
 
@@ -58,13 +39,9 @@ Program Files (x86)/World of Warcraft/_forever_/Interface/AddOns
 Back up add-ons and configuration before changing the prefix or reinstalling
 the launcher.
 
-## Recovery
+## Verification and recovery
 
-| Symptom | Recovery |
-| --- | --- |
-| Portrait and wide cards are reversed | Swap `<appid>.png` and `<appid>p.png`. |
-| Title is clipped | Use a format-specific design and move it inside the safe area. |
-| Hero has a duplicate title | Remove the title from `_hero.png`; retain `_logo.png`. |
-| Dark title panel is unwanted | Re-render without the panel; retain a thin text outline if needed. |
-| Steam shows old artwork | Restart Steam; verify App ID, Steam user ID, and grid folder. |
-| Logo has a black box | Export it as transparent RGBA PNG artwork. |
+Use the detailed guide to correct format, title, transparency, or stale-cache
+problems. Restore the timestamped artwork backup if the new files cannot be
+verified. Record the App ID, SteamOS build, all four observed formats, and the
+Gaming Mode result according to the [verification standard](verification.md).
