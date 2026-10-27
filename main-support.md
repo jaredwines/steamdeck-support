@@ -152,6 +152,44 @@ as `~/.ssh/id_ed25519`, or configure the tool with the dedicated key path.
 Revoke that one public-key line from `~/.ssh/authorized_keys` when the Codex
 environment no longer needs access.
 
+## Git and GitHub SSH access
+
+Git is installed on the Steam Deck. The configured commit identity is:
+
+```bash
+git config --global user.name "jaredwines"
+git config --global user.email "jwines760@gmail.com"
+```
+
+GitHub SSH access uses the dedicated key at `~/.ssh/id_ed25519_git`. The
+private key must remain local, with mode `600`; only its `.pub` companion may
+be added to a GitHub account. Do not put either key in a repository or support
+ticket.
+
+The Git configuration selects this key for SSH remotes:
+
+```bash
+git config --global core.sshCommand 'ssh -i /home/deck/.ssh/id_ed25519_git -o IdentitiesOnly=yes'
+```
+
+To restore GitHub access, copy the public key and add it in GitHub under
+**Settings → SSH and GPG keys**:
+
+```bash
+cat ~/.ssh/id_ed25519_git.pub
+```
+
+Then verify that GitHub accepts the key:
+
+```bash
+ssh -T git@github.com
+```
+
+Expected result: a greeting for the `jaredwines` account followed by a note
+that GitHub does not provide shell access. A `Permission denied (publickey)`
+result means the public key has not been added to the account or the Git SSH
+configuration is not selecting it.
+
 ### Windows PowerShell support computer
 
 Generate a dedicated key:
@@ -246,6 +284,81 @@ Before making changes:
 After significant changes, reboot if appropriate, confirm that Gaming Mode
 works normally, and record the final result.
 
+## Non-Steam games, launchers, and artwork
+
+For the complete repeatable procedure, use the
+[Non-Steam Game & Artwork Setup Guide](steam/add-non-steam-game-and-artwork-guide.md).
+The verified artwork backups are stored in
+[steam/artworks/battle.net](steam/artworks/battle.net/) and
+[steam/artworks/wowup-curseforge](steam/artworks/wowup-curseforge/).
+
+### Standard workflow
+
+1. Add or inspect the non-Steam shortcut in Desktop Mode and record its App ID.
+2. Back up its existing Steam grid files before replacing anything.
+3. Install the four format-specific artwork files.
+4. Confirm the game and launcher are closed before restarting Steam.
+5. Verify the wide cover, portrait cover, selected-game hero, and title logo in
+   Gaming Mode.
+
+### Verified Steam artwork mapping
+
+| File | Size | Purpose | Title rule |
+| --- | ---: | --- | --- |
+| `<appid>.png` | 920 x 430 | Wide library cover | Bake the title into the image. |
+| `<appid>p.png` | 600 x 900 | Portrait cover | Bake the title into the image. |
+| `<appid>_hero.png` | 1920 x 620 | Selected-game hero background | Do not bake in a title. |
+| `<appid>_logo.png` | 1200 x 300 | Hero title logo | Transparent PNG; title only. |
+
+The plain `.png` is the wide cover and the `p.png` file is the portrait cover.
+Steam overlays the transparent logo on the hero; a title in both files appears
+twice.
+
+### Safe Steam restart for artwork changes
+
+Before restarting Steam, confirm that no game, launcher, Proton, or Wine
+process is active. Then restart Steam's user service:
+
+```bash
+systemctl --user restart app-steam@autostart.service
+pgrep -u deck -x steam >/dev/null && echo "STEAM_RUNNING"
+```
+
+Do not force-close Steam while a game or launcher is running unless the owner
+has explicitly approved interrupting it.
+
+### WowUp (CurseForge) for WoW Forever
+
+The stable WowUp launcher is `~/Applications/WowUp-CurseForge`; its AppImage
+files live in `~/Applications/`. The wrapper selects the newest executable
+`WowUp-CF-*.AppImage`, clears `LD_PRELOAD`, and runs it with `--no-sandbox`.
+Use the wrapper rather than adding a versioned AppImage directly to Steam.
+
+Keep Steam Overlay disabled for the WowUp shortcut. If WowUp fails from Steam,
+first verify that the shortcut targets the stable wrapper and that Overlay is
+off before changing anything else.
+
+WoW Forever add-ons are installed under:
+
+```text
+~/.local/share/Steam/steamapps/compatdata/3104267125/pfx/drive_c/
+Program Files (x86)/World of Warcraft/_forever_/Interface/AddOns
+```
+
+Keep a separate backup of add-ons and configuration before changing the game
+prefix or reinstalling the launcher.
+
+### Artwork recovery notes
+
+| Symptom | Recovery |
+| --- | --- |
+| Portrait and wide cards are reversed | Swap `<appid>.png` and `<appid>p.png`. |
+| Title is clipped | Use a format-specific design and move it farther inside the safe area. |
+| Hero has a duplicate title | Remove the title from `<appid>_hero.png`; keep `<appid>_logo.png`. |
+| A dark title panel is unwanted | Re-render without the translucent panel; retain a thin text outline if needed. |
+| Steam shows old artwork | Restart Steam and verify the App ID, Steam user ID, and grid folder. |
+| The logo has a black box | Export it as transparent RGBA PNG artwork. |
+
 ## Diagnostics for support tickets
 
 If access fails, collect the following on the Steam Deck and share the output
@@ -313,3 +426,12 @@ changes, and record each change made during a support session.
 - [ ] Temporary shared sudo authorization has been verified or intentionally omitted.
 - [ ] Significant changes have been recorded and normal Gaming Mode operation has been checked.
 - [ ] Support access has been reviewed or disabled when it is no longer needed.
+
+### Non-Steam game completion checklist
+
+- [ ] The non-Steam shortcut launches as expected.
+- [ ] Its wide and portrait covers display in the correct layouts.
+- [ ] Its hero background has no duplicate baked-in title.
+- [ ] Its transparent title logo displays once on the hero.
+- [ ] Associated launcher and add-ons, if any, work as expected.
+- [ ] Steam restarted cleanly and Gaming Mode works normally.
