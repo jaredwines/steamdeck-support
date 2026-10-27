@@ -52,6 +52,7 @@ complete, run `sudo -k` to clear temporary authorization and then `exit`.
 | Set up, verify, or disable SSH access | [Remote access](remote-access.md) |
 | Use or configure temporary shared sudo access | [Sudo access](sudo-access.md) |
 | Use Git or restore GitHub SSH access on the Deck | [GitHub access](github-access.md) |
+| Plan or recover from a full internal-drive wipe | [Full-system restore](full-system-restore.md) |
 | Plan, perform, document, and hand off support work | [Support session](support-session.md) |
 | Collect safe diagnostics or resolve common access failures | [Diagnostics](diagnostics.md) |
 | Add a non-Steam game, launcher, or artwork | [Non-Steam games](non-steam-games.md) |
