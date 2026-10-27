@@ -43,6 +43,7 @@ if grep -RIEIl --exclude-dir=.git \
 fi
 
 structured_runbooks=(
+  runbooks/backup-and-restore.md
   runbooks/common-issues.md
   runbooks/diagnostics.md
   runbooks/github-access.md

@@ -9,12 +9,13 @@ cannot be completed confidently.
 
 - [ ] Confirm this is the intended Steam Deck and note whether it is LCD or OLED.
 - [ ] Review Valve's current [recovery options](https://help.steampowered.com/en/faqs/view/1B71-EDF2-EB6D-2BB3); use a less destructive option when suitable.
+- [ ] Inventory every operating system, partition, and boot customization on the internal drive; a full re-image removes all of them.
 - [ ] Confirm Steam Cloud synchronization and resolve conflicts.
-- [ ] Pass the [backup acceptance test](#backup-acceptance-test).
+- [ ] Complete [Backup and restore readiness](backup-and-restore.md) and pass its acceptance test.
 - [ ] Confirm the latest Steam Deck Support (SS) commit is accessible from another device.
 - [ ] Confirm Steam account recovery works without relying only on the Deck.
 - [ ] Remove the microSD card and unrelated external storage.
-- [ ] Identify the USB drive that will be erased for recovery media.
+- [ ] Identify the USB drive that will be erased for recovery media; confirm it is not a backup destination and contains nothing needed.
 - [ ] Obtain the owner's explicit approval immediately before the full wipe.
 
 ### Re-image and establish a baseline
@@ -59,8 +60,13 @@ Keep the latest SS commits outside the Deck at:
 git@github.com:jaredwines/steamdeck-support.git
 ```
 
-Maintain an encrypted backup outside the Deck. Keep private keys, passwords,
-tokens, account data, and raw diagnostics out of SS.
+Follow [Backup and restore readiness](backup-and-restore.md) to inventory the
+Deck, create encrypted off-device copies, and prove that representative data
+can be restored. Do not wipe until that runbook's acceptance test passes and
+the owner accepts every exclusion or unrecoverable item.
+
+Keep private keys, passwords, tokens, account data, completed worksheets, and
+raw diagnostics out of SS.
 
 ### Recovery kit
 
@@ -69,62 +75,6 @@ tokens, account data, and raw diagnostics out of SS.
 - An expendable USB drive of at least 8 GB and any required USB-C adapter.
 - Steam account sign-in and recovery methods.
 - The encrypted backup and protected credential storage.
-
-### Private recovery worksheet
-
-Keep the completed worksheet in encrypted storage outside the Deck and SS.
-Use `not applicable`, `unknown`, or `not recoverable` instead of blanks.
-
-```text
-Inventory review date/person:
-Deck model and storage size:
-SteamOS channel, version/build, and kernel:
-Internal storage used/free; microSD contents:
-Steam account recovery verified:
-Games with Cloud confirmed; non-Cloud saves:
-Non-Steam games, launchers, prefixes, and saves:
-Flatpak/Discover applications and sources:
-Desktop files and application-data paths:
-Intentional customizations and owning SS runbook:
-Required SSH/GitHub public-key fingerprints:
-Backup location, date, encryption, and verification:
-Restore-test sample and date:
-Known exclusions and accepted losses:
-Owner's wipe approval record:
-```
-
-When the Deck still boots, these read-only commands help build the worksheet:
-
-```bash
-cat /etc/os-release
-uname -r
-lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,MODEL
-df -h / /home
-flatpak list --app --columns=application,origin
-find ~/.var/app -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort
-find ~/Applications -mindepth 1 -maxdepth 2 -printf '%P\n' | sort
-git -C /home/deck/steamdeck-support log -1 --format='%H %cI %s'
-git -C /home/deck/steamdeck-support remote -v
-```
-
-Missing paths are valid findings; do not create them. Review output locally
-because names and labels may be private. Check Steam Cloud in Steam for every
-important game rather than assuming library membership means Cloud support.
-
-### Backup acceptance test
-
-A backup is ready only when:
-
-- [ ] It is outside the Deck, and its physical or remote destination is identified.
-- [ ] Sensitive data is encrypted and can be decrypted on another device.
-- [ ] It completed without unexplained errors and has a plausible size.
-- [ ] Its checksum or backup-tool verification passes after reconnecting it.
-- [ ] Representative files open, including a non-Cloud save and application data when applicable.
-- [ ] The recorded SS commit is available from another device.
-- [ ] The owner accepts every recorded exclusion or unrecoverable item.
-
-After the wipe, restore selected data rather than the entire old home directory;
-this avoids reintroducing stale caches, permissions, and obsolete settings.
 
 ## Choose the recovery method
 
@@ -156,13 +106,24 @@ page. The current high-level flow is:
 Stop if the environment, labels, target, or result differs from Valve's guide.
 Do not improvise with partitions or recovery-shell commands.
 
+Download the image only through Valve's current page. Record its source URL,
+download date, filename, and size. If Valve publishes a checksum, verify and
+record it; if Valve does not, record that fact rather than substituting an
+untrusted third-party checksum. Use the imaging tool's validation or read-back
+feature when it provides one, safely eject the USB, and treat a successful boot
+to the recovery desktop as the practical media check. Never continue from a
+download, write, validation, or boot error.
+
 ### Optional non-destructive rehearsal
 
 With separate owner approval, prepare the recovery USB and boot only as far as
 the recovery desktop. Select no install, repair, erase, or recovery-tool
 action. Power down, boot SteamOS normally, and confirm Gaming Mode works.
 Record the image source, date, Deck model, recovery-desktop result, and final
-Gaming Mode check. Preparing the USB still erases the USB drive.
+Gaming Mode check. Also record elapsed boot time and any prompts or labels that
+differ from Valve's current guide. Preparing the USB still erases the USB
+drive. This rehearsal verifies the media and boot path, not the re-image or
+data restore.
 
 ## Restore access and SS
 
@@ -229,9 +190,11 @@ Keep the detailed record outside SS while it contains private information.
 ```text
 Restore date/operator and Deck model:
 Approval confirmed immediately before wipe:
-Valve pages reviewed; recovery image used:
-Backup acceptance result; known unavailable data:
-Wipe/install result:
+Valve pages reviewed; recovery image source, filename, size, and verification:
+Backup tool, source manifest, destination, result, and exclusions:
+Independent restore-test sample and result:
+Internal-drive operating systems/partitions and accepted losses:
+Wipe/install result, elapsed time, prompts, and deviations:
 Checkpoint A — stock system healthy:
 Checkpoint B — intended access and SS healthy:
 Checkpoint C — required data and applications healthy:
@@ -257,8 +220,21 @@ and labels, then verify SS's path, Git remote, linked runbooks, artwork
 inventory, and quality gate. Transfer only sanitized, reusable findings into
 SS and follow [Support session](support-session.md).
 
+For the first observed use on each Deck model or materially different SteamOS
+release, record the following as separate evidence; do not promote a lower
+level into a claim about a higher one:
+
+1. Valve-document review and local repository validation.
+2. Recovery image written, validated when supported, and booted to the recovery desktop.
+3. Full re-image completed and Checkpoint A passed.
+4. Required layers restored and Checkpoints B through D passed.
+
+After a verified execution, add the SteamOS build, Deck model, highest evidence
+level reached, important label or timing differences, recovery result, and any
+remaining limitation to the compatibility record.
+
 ## Compatibility record
 
-| Review date | SteamOS version/build | Scope | Result |
-| --- | --- | --- | --- |
-| 2026-10-26 | Not tested on-device | Compared with Valve's current pages; checked SS paths and remote locally | Plan ready; full wipe and restore remain unverified |
+| Review date | Deck model | SteamOS version/build | Evidence level | Result |
+| --- | --- | --- | --- | --- |
+| 2026-10-26 | Not tested on-device | Not tested on-device | 1 — documentation review | Compared with Valve's current pages; checked SS paths and remote locally; media boot, re-image, and restore remain unverified |
