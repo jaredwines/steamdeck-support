@@ -4,6 +4,10 @@ This repository stores verified, reusable guidance for supporting a Steam Deck
 running SteamOS, plus backed-up Steam artwork. Start with the
 [runbook index](runbooks/index.md) before support work.
 
+**Steam Deck Support (SS)** is the name of this repository and its canonical
+root folder, `/home/deck/steamdeck-support`. Use the full name on first
+mention; use **SS** afterward only when the abbreviation improves clarity.
+
 ## Repository map
 
 - [runbooks/](runbooks/README.md) — operational procedures and safety rules.

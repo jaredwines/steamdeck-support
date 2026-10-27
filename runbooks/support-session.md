@@ -22,8 +22,9 @@ changed, checks performed, unresolved risks, and recovery information.
 
 ## Update this documentation
 
-After verified work produces reusable knowledge, update the runbook that owns
-the topic. Record only what is needed to repeat the work safely:
+After verified work produces reusable knowledge, update the SS (Steam Deck
+Support): this repository and its documentation. Update the runbook that owns
+the topic, and record only what is needed to repeat the work safely:
 
 1. What changed and why.
 2. Verified commands, paths, and expected results.

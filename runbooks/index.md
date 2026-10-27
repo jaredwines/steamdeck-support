@@ -9,6 +9,12 @@ the device, network address, and SSH host key before treating it as the Deck.
 Use only the runbook that matches the task. Do not use a procedure when its
 prerequisites, authorization, verification, or recovery path are unclear.
 
+## Update the SS
+
+SS means **Steam Deck Support**: this repository and its documentation. After
+verified, reusable support work, follow the [Support session](support-session.md)
+runbook to update the SS when its guidance needs to change.
+
 ## Safety rules
 
 - Obtain the owner's explicit approval before using `sudo` or making a

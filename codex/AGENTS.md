@@ -4,6 +4,9 @@
 
 - These instructions apply to this directory and all files beneath it.
 - The canonical project root is `/home/deck/steamdeck-support`.
+- Steam Deck Support (SS) is the name of this repository and its canonical
+  root folder. Use the full name on first mention; use SS afterward only when
+  the abbreviation improves clarity.
 - Do not use the retired path `/home/deck/Documents/codex-steamdeck-support`.
 - This project supports a Steam Deck running SteamOS.
 - Read `runbooks/index.md` before performing support work.
@@ -41,4 +44,5 @@
 - Report commands run, files changed, checks performed, and unresolved risks.
 - After significant system work, confirm that Gaming Mode operates normally.
 - Update the applicable runbook when a verified support procedure changes.
+- Update SS documentation only with verified, reusable support knowledge.
 - Keep this file concise and free of secrets and duplicated tutorials.
