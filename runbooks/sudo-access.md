@@ -5,6 +5,12 @@
 Use this runbook when a support task needs `sudo`, or when the owner explicitly
 requests temporary sudo authorization to be shared across SSH sessions.
 
+## Quick path
+
+Confirm the exact approved command and expected account, authenticate only at a
+trusted prompt, avoid persistent policy changes unless specifically required,
+and clear temporary authorization with `sudo -k` at handoff.
+
 ## Approval and prerequisites
 
 Every command in this runbook that invokes `sudo` requires the owner's
@@ -106,3 +112,9 @@ the local `deck` sudo policy; do not attempt to bypass it.
 Record the SteamOS build, whether standard or shared authorization was used,
 the result of `sudo -l`, whether `sudo -k` was run, and whether any persistent
 rule remains. Follow the [verification standard](verification.md).
+
+## Compatibility record
+
+| Review date | SteamOS version/build | Scope | Result |
+| --- | --- | --- | --- |
+| 2026-10-26 | Not tested on-device | Standard and shared authorization procedures reviewed | Ready for use; no sudo command was run during this review |

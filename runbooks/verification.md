@@ -6,6 +6,12 @@ Use this standard to decide whether a support procedure is safe to run and
 whether its result is strong enough to document as verified, reusable SS
 guidance.
 
+## Quick path
+
+Record version and context, confirm prerequisites, approval, recovery, and
+expected results, observe the functional outcome, and publish only sanitized
+evidence that matches the full scope actually tested.
+
 ## Before using a runbook
 
 Record enough context to detect version-dependent behavior without collecting
@@ -66,8 +72,7 @@ From the repository root, run:
 
 ```bash
 bash scripts/validate-repository.sh
-git diff --check
 ```
 
-Both commands must pass before publishing. Then review the complete diff and
+The command must pass before publishing. Then review the complete diff and
 confirm it contains only intended, reusable, sanitized material.

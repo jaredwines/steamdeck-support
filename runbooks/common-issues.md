@@ -14,6 +14,18 @@ the official [Proton project](https://github.com/ValveSoftware/Proton), and
 Its diagnostic commands were checked locally, but no repair in this runbook
 has been verified on this Deck.
 
+For a focused operational path, use [Steam and Proton](steam-proton.md),
+[Storage and microSD](storage-microsd.md), [Flatpak applications](flatpak.md),
+[Connectivity](connectivity.md), [Hardware and peripherals](hardware-peripherals.md),
+[Power and performance](power-performance.md), [Updates and boot](updates-boot.md),
+or [Save data](save-data.md). This page remains the cross-category overview.
+
+## Quick path
+
+Establish the relevant read-only baseline, decide whether one game, application,
+mode, peripheral, or the whole Deck is affected, then move to the focused
+runbook and change one approved variable at a time.
+
 ## Approval and prerequisites
 
 Reading status and using Steam's input test are diagnostic. Obtain the owner's

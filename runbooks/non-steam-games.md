@@ -5,8 +5,14 @@
 Use this runbook as the entry point for non-Steam shortcuts. The
 [Non-Steam Game & Artwork Setup Guide](../steam/add-non-steam-game-and-artwork-guide.md)
 owns the file mapping, backup, installation, restart, troubleshooting, and
-per-game record. Verified artwork is stored under
+per-game record. Artwork backups are stored under
 [`steam/artworks/`](../steam/artworks/).
+
+## Quick path
+
+Inspect the stored shortcut and App ID, back up existing grid files, install the
+four mapped artwork formats, restart Steam only with approval, and verify every
+placement in Gaming Mode.
 
 ## Approval and prerequisites
 
@@ -19,15 +25,17 @@ working path back to Gaming Mode.
 ## Standard workflow
 
 1. Add or inspect the shortcut in Desktop Mode.
-2. Confirm its App ID against both its name and exact executable path.
+2. Use SS's read-only shortcut inspector and confirm the stored App ID against
+   both its name and exact executable path.
 3. Back up existing Steam grid files, then install all four artwork formats.
 4. Close the game, launcher, Proton, and Wine processes before restarting Steam.
 5. Verify the wide cover, portrait cover, selected-game hero, and title logo in Gaming Mode.
 
 Do not guess an App ID, force-close running software without approval, or
-replace artwork without a timestamped backup. If no trusted method on the
-current Steam build exposes the App ID, stop and record the gap rather than
-using an unverified calculation.
+replace artwork without a timestamped backup. The detailed guide documents the
+inspector command and its privacy boundary. If it cannot read the current
+Steam data, stop and record the gap rather than installing an unreviewed tool
+or using an unverified calculation.
 
 ## WowUp (CurseForge) for WoW Forever
 
@@ -53,3 +61,9 @@ Use the detailed guide to correct format, title, transparency, or stale-cache
 problems. Restore the timestamped artwork backup if the new files cannot be
 verified. Record the App ID, SteamOS build, all four observed formats, and the
 Gaming Mode result according to the [verification standard](verification.md).
+
+## Compatibility record
+
+| Review date | SteamOS version/build | Scope | Result |
+| --- | --- | --- | --- |
+| 2026-10-26 | 3.9.5 / 20261023.100 | Read-only shortcut inspection and installed-file comparison for Battle.net and WowUp (CurseForge) | Stored shortcut names and App IDs matched; all eight installed artwork files matched the SS backups byte for byte and had the required formats; visual Gaming Mode verification remains pending |

@@ -1,13 +1,12 @@
 # Steam Deck Non-Steam Game & Artwork Setup Guide
 
-A reusable guide for adding non-Steam games or launchers to Steam on a Steam
-Deck and assigning verified custom artwork for Desktop Mode and Gaming Mode.
-
 Use this guide to add a game or launcher to Steam on a Steam Deck and give it
 reliable custom artwork in Desktop Mode and Gaming Mode.
 
-## Safety rules
+## Approval and prerequisites
 
+- Obtain the owner's approval before adding or changing a shortcut, replacing
+  artwork, closing software, or restarting Steam.
 - Do not replace existing artwork before creating a timestamped backup.
 - Close the game and its launcher before restarting Steam.
 - Keep the hero background title-free. Steam displays the separate transparent
@@ -32,13 +31,20 @@ reliable custom artwork in Desktop Mode and Gaming Mode.
 4. Configure compatibility settings or launch options when the game needs
    Proton or a launcher-specific command.
 5. Restart Steam once so it saves the shortcut information.
-6. Identify the shortcut App ID using the Steam client or an already installed,
-   trusted shortcut inspection tool. Confirm it against both the display name
-   and exact executable/launcher path; do not guess or reuse another shortcut's
-   ID.
-7. Record the confirmed App ID before adding artwork. If the current Steam
-   build offers no trustworthy way to obtain it, stop rather than applying an
-   unverified calculation.
+6. From SS, use the read-only shortcut inspector to list the IDs Steam stored:
+
+   ```bash
+   python3 /home/deck/steamdeck-support/scripts/list-non-steam-shortcuts.py \
+     --match '<display-name>'
+   ```
+
+   The output can contain private executable paths; review it locally and do
+   not paste it into a ticket. If `python3` or the shortcut file is unavailable,
+   stop and use a trusted inspection method rather than installing an
+   unreviewed tool.
+7. Match both the display name and exact executable path, then record the
+   corresponding stored App ID. Never calculate, guess, or reuse another
+   shortcut's ID.
 
 ## 2. Create the four artwork files
 
@@ -86,6 +92,14 @@ Gaming Mode.
 
 Put the prepared files somewhere convenient, then copy them to Steam's grid
 folder. Replace the placeholders:
+
+```bash
+grid="$HOME/.local/share/Steam/userdata/<steam-user-id>/config/grid"
+
+test -d "$grid" && echo "READY" || echo "STOP: grid folder not found"
+```
+
+Continue only after the check reports `READY`:
 
 ```bash
 grid="$HOME/.local/share/Steam/userdata/<steam-user-id>/config/grid"
@@ -162,3 +176,9 @@ Copy this block for each new game:
 Also record the SteamOS version/build and the date of verification. Use the
 [SS verification standard](../runbooks/verification.md) for the complete
 evidence and sanitization requirements.
+
+## Compatibility record
+
+| Review date | SteamOS version/build | Scope | Result |
+| --- | --- | --- | --- |
+| 2026-10-26 | 3.9.5 / 20261023.100 | Read-only shortcut inspection and installed-file comparison | Inspector matched the stored Battle.net and WowUp shortcuts; all eight installed artwork files matched SS byte for byte; Steam restart and visual Gaming Mode verification remain pending |

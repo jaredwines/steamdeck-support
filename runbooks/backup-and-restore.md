@@ -11,6 +11,13 @@ product. Backup tools, filesystems, applications, and save locations vary; stop
 when the selected tool cannot preserve or restore the metadata the data needs.
 The procedure has been reviewed locally but not completed on this Deck.
 
+## Quick path
+
+Inventory every irreplaceable source, copy it to an identified encrypted
+off-device destination, verify the stored copy after reconnecting it, and prove
+a representative restore into a new location. Do not approve destructive work
+until every applicable acceptance item passes.
+
 ## Approval and prerequisites
 
 Inventory commands below are read-only. Obtain the owner's approval before

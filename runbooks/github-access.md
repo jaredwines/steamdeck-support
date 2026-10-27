@@ -5,6 +5,12 @@
 Use this runbook to verify or restore Git and GitHub SSH access on the Steam
 Deck.
 
+## Quick path
+
+Inspect the configured identity and dedicated public-key fingerprint, verify
+the intended GitHub account and repository read access, and create or replace a
+key only with explicit approval and a confirmed account.
+
 ## Approval and prerequisites
 
 Reading Git configuration and testing authentication are read-only. Creating
@@ -91,3 +97,9 @@ created key or configuration is wrong, keep the original session open, restore
 the previously recorded Git values, and remove or revoke only the newly added
 public key after explicit approval. Follow the
 [verification standard](verification.md).
+
+## Compatibility record
+
+| Review date | SteamOS version/build | Scope | Result |
+| --- | --- | --- | --- |
+| 2026-10-26 | 3.9.5 / 20261023.100 | Existing dedicated-key authentication and read-only `origin` access | Passed: explicit dedicated key authenticated and `git ls-remote --exit-code origin HEAD` succeeded; key creation and revocation were not repeated |

@@ -13,6 +13,19 @@ mention; use **SS** afterward only when the abbreviation improves clarity.
 - [runbooks/](runbooks/README.md) — operational procedures and safety rules.
 - [steam/](steam/README.md) — non-Steam game and artwork guidance.
 - [codex/](codex/README.md) — instructions used by Codex in this repository.
+- [scripts/validate-repository.sh](scripts/validate-repository.sh) — the local
+  quality gate; `scripts/` also contains the read-only non-Steam shortcut
+  inspector and its supporting validators.
+- [runbooks/triage.md](runbooks/triage.md) — symptom-first routing when the
+  cause is not yet known.
+- [runbooks/coverage-matrix.md](runbooks/coverage-matrix.md) — diagnostic,
+  repair, recovery, and evidence coverage at a glance.
+- [runbooks/readiness-scorecard.md](runbooks/readiness-scorecard.md) — measurable
+  10/10 release gates and their current evidence status.
+- [scripts/collect-diagnostics.sh](scripts/collect-diagnostics.sh) — read-only,
+  topic-specific collection with dry-run support; sanitize and manually review
+  its local output before sharing it. The companion sanitizer redacts common
+  patterns and the summary tool reports coverage without collected values.
 
 ## Supported scope
 
@@ -36,10 +49,12 @@ Run the local quality checks after documentation or artwork changes:
 bash scripts/validate-repository.sh
 ```
 
-The check verifies local Markdown links, required runbook structure, common
-secret patterns, the exact `AGENTS.md` backup, shell syntax, and the dimensions
-and alpha channel of backed-up artwork. CI also checks external links on pushes
-and pull requests.
+The check verifies every required repository component, local Markdown files
+and heading links, required runbook structure, common secret patterns, the
+exact `AGENTS.md` backup, shell syntax, the non-Steam shortcut inspector's
+self-test, and PNG integrity, inventory, dimensions, color format, and real
+logo transparency. It also checks working-tree and staged whitespace. CI checks
+committed whitespace and external links on pushes and pull requests.
 
 ## Update this repository
 

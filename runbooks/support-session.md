@@ -5,6 +5,12 @@
 Use this runbook for every support change, from planning through documentation
 and handoff.
 
+## Quick path
+
+Record the intended outcome and commands, obtain approval for the exact change,
+preserve recovery, verify the affected feature and Gaming Mode when required,
+then hand off commands, changes, checks, and unresolved risks.
+
 ## Before making changes
 
 1. Explain the intended change and obtain the owner's approval.

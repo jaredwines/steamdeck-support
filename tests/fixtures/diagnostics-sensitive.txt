@@ -1,0 +1,6 @@
+inet 192.0.2.10/24
+inet6 fe80::1/64
+controller 02:00:5e:10:00:00
+volume 123e4567-e89b-12d3-a456-426614174000
+path /home/alex/private/file.txt
+SSID: Example Network With Spaces

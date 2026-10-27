@@ -52,6 +52,13 @@ precedence over summaries in SS.
 This guide was reviewed on 2026-10-26 against Valve's documentation, but the
 complete wipe-and-restore sequence has not been tested on this Deck.
 
+## Quick path
+
+Use the emergency checklist: prove the encrypted backup and account recovery,
+prefer a less destructive official option, obtain immediate approval before any
+wipe, establish a healthy stock checkpoint, and restore one verified layer at a
+time.
+
 ## Prepare before an emergency
 
 Keep the latest SS commits outside the Deck at:

@@ -13,13 +13,52 @@ fail() {
 }
 
 required_files=(
+  .github/workflows/validate.yml
   AGENTS.md
-  codex/AGENTS.md
   README.md
-  runbooks/index.md
+  codex/AGENTS.md
+  codex/README.md
+  runbooks/README.md
+  runbooks/backup-and-restore.md
   runbooks/common-issues.md
+  runbooks/compatibility-status.md
+  runbooks/connectivity.md
+  runbooks/coverage-matrix.md
+  runbooks/diagnostics.md
+  runbooks/flatpak.md
+  runbooks/full-system-restore.md
+  runbooks/github-access.md
+  runbooks/hardware-peripherals.md
+  runbooks/index.md
+  runbooks/non-steam-games.md
+  runbooks/power-performance.md
+  runbooks/readiness-scorecard.md
+  runbooks/remote-access.md
+  runbooks/save-data.md
+  runbooks/scenario-catalog.md
+  runbooks/steam-proton.md
+  runbooks/storage-microsd.md
+  runbooks/sudo-access.md
   runbooks/support-session-record-template.md
+  runbooks/support-session.md
+  runbooks/triage.md
+  runbooks/updates-boot.md
   runbooks/verification.md
+  scripts/check-compatibility-status.py
+  scripts/check-runbook-structure.py
+  scripts/check-scenario-coverage.py
+  scripts/collect-diagnostics.sh
+  scripts/list-non-steam-shortcuts.py
+  scripts/sanitize-diagnostics.py
+  scripts/summarize-diagnostics.py
+  scripts/test-support-tools.sh
+  scripts/validate-artwork.py
+  scripts/validate-markdown-links.py
+  scripts/validate-repository.sh
+  steam/README.md
+  steam/add-non-steam-game-and-artwork-guide.md
+  steam/artworks/README.md
+  tests/fixtures/diagnostics-sensitive.txt
 )
 
 for required_file in "${required_files[@]}"; do
@@ -37,74 +76,46 @@ if grep -RIl --exclude-dir=.git --exclude=AGENTS.md "$retired_root" . | grep -q 
 fi
 
 if grep -RIEIl --exclude-dir=.git \
-  'BEGIN ([A-Z0-9]+ )?PRIVATE KEY|github_pat_[A-Za-z0-9_]+|gh[opurs]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}' \
+  'BEGIN ([A-Z0-9]+ )?PRIVATE KEY|github_pat_[A-Za-z0-9_]+|gh[opurs]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}' \
   . | grep -q .; then
   fail 'repository contains text matching a common secret pattern'
 fi
 
-structured_runbooks=(
-  runbooks/backup-and-restore.md
-  runbooks/common-issues.md
-  runbooks/diagnostics.md
-  runbooks/github-access.md
-  runbooks/non-steam-games.md
-  runbooks/remote-access.md
-  runbooks/sudo-access.md
-  runbooks/verification.md
-)
+python3 -B scripts/check-runbook-structure.py ||
+  fail 'runbook structure validation failed'
 
-for runbook in "${structured_runbooks[@]}"; do
-  grep -Eq '^## (Purpose|Purpose and status)$' "$runbook" ||
-    fail "$runbook is missing a purpose section"
-  grep -Eq '^## (Approval|Approval and prerequisites|Approval and sanitization|Before using a runbook)' "$runbook" ||
-    fail "$runbook is missing an approval or prerequisite section"
-  grep -Eq '^## (Verification|Verification and recovery|Verification record|Evidence required after a change)' "$runbook" ||
-    fail "$runbook is missing a verification section"
+python3 -B scripts/check-compatibility-status.py ||
+  fail 'compatibility status validation failed'
+
+python3 -B scripts/check-scenario-coverage.py ||
+  fail 'scenario coverage validation failed'
+
+python3 -B scripts/validate-markdown-links.py ||
+  fail 'Markdown link validation failed'
+
+python3 -B scripts/validate-artwork.py ||
+  fail 'artwork content validation failed'
+
+python3 -B scripts/list-non-steam-shortcuts.py --self-test ||
+  fail 'non-Steam shortcut inspector self-test failed'
+
+bash scripts/test-support-tools.sh ||
+  fail 'support-tool tests failed'
+
+git diff --check ||
+  fail 'working-tree whitespace validation failed'
+
+git diff --cached --check ||
+  fail 'staged whitespace validation failed'
+
+for shell_script in scripts/*.sh; do
+  bash -n "$shell_script" || fail "$shell_script has invalid shell syntax"
 done
 
-while IFS=$'\t' read -r source_file target; do
-  case "$target" in
-    http://*|https://*|mailto:*|'#'*) continue ;;
-  esac
-
-  target=${target%%#*}
-  [[ -n "$target" ]] || continue
-  resolved_target=$(dirname -- "$source_file")/$target
-  [[ -e "$resolved_target" ]] || fail "$source_file links to missing $target"
-done < <(
-  find . -type f -name '*.md' -not -path './.git/*' -exec \
-    perl -ne 'while (/\[[^]]*\]\(([^)]+)\)/g) { print "$ARGV\t$1\n" }' {} +
-)
-
-check_image() {
-  local path=$1
-  local dimensions=$2
-  local color_type=$3
-  local description
-
-  if [[ ! -f "$path" ]]; then
-    fail "missing artwork: $path"
-    return
-  fi
-
-  description=$(file --brief -- "$path")
-  [[ "$description" == *"PNG image data, $dimensions,"* ]] ||
-    fail "$path does not have dimensions $dimensions"
-  [[ "$description" == *"8-bit/color $color_type,"* ]] ||
-    fail "$path is not reported as $color_type"
-}
-
-for artwork_set in battle.net wowup-curseforge; do
-  artwork_root=steam/artworks/$artwork_set
-  check_image "$artwork_root/wide-cover.png" '920 x 430' 'RGB'
-  check_image "$artwork_root/portrait-cover.png" '600 x 900' 'RGB'
-  check_image "$artwork_root/hero-background.png" '1920 x 620' 'RGB'
-  check_image "$artwork_root/title-logo.png" '1200 x 300' 'RGBA'
+for python_script in scripts/*.py; do
+  python3 -B -c 'import ast, pathlib, sys; ast.parse(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"), filename=sys.argv[1])' "$python_script" ||
+    fail "$python_script has invalid Python syntax"
 done
-
-if ! bash -n scripts/validate-repository.sh; then
-  fail 'scripts/validate-repository.sh has invalid shell syntax'
-fi
 
 if ((failures > 0)); then
   printf '%d validation check(s) failed.\n' "$failures" >&2

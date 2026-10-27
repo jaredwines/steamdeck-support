@@ -4,6 +4,13 @@ This folder holds the authoritative, task-specific procedures for Steam Deck
 support. Start with the [runbook index](index.md), then use only the runbook
 that matches the task.
 
+When the cause is unknown, use [Symptom triage](triage.md). The
+[Support coverage matrix](coverage-matrix.md), [Scenario catalog](scenario-catalog.md),
+and [Compatibility status](compatibility-status.md) track breadth, acceptance,
+and evidence without replacing the owning procedures. The
+[SS readiness scorecard](readiness-scorecard.md) prevents implemented changes
+from being mistaken for completed practical verification.
+
 Add a runbook update only after work is verified and reusable. Keep commands,
 approval requirements, recovery steps, and verification results accurate; do
 not record credentials or sensitive diagnostics.

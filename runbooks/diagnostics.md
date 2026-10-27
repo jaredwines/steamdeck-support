@@ -5,6 +5,12 @@
 Use this runbook to collect safe information for a support ticket or resolve
 common remote-access failures.
 
+## Quick path
+
+Choose the smallest relevant read-only collector profile, preview it, run it
+locally, and sanitize and manually review any output before sharing. Diagnostics
+do not authorize a repair.
+
 ## Approval and sanitization
 
 The basic commands below are read-only. `sudo journalctl` requires explicit
@@ -14,6 +20,19 @@ device identifiers, usernames other than `deck`, account data, tokens, and
 unrelated log lines.
 
 ## Safe collection
+
+For a topic-specific, read-only collection with a local privacy warning, use:
+
+```bash
+bash scripts/collect-diagnostics.sh --list
+bash scripts/collect-diagnostics.sh --dry-run <profile>
+bash scripts/collect-diagnostics.sh <profile>
+bash scripts/collect-diagnostics.sh <profile> | python3 -B scripts/summarize-diagnostics.py
+```
+
+The collector uploads nothing. Its output can still contain sensitive values.
+Review it manually; `scripts/sanitize-diagnostics.py` removes common patterns
+but cannot guarantee that arbitrary diagnostic text is safe to share.
 
 On the Deck, collect the following and remove sensitive details before sharing:
 
@@ -54,3 +73,9 @@ Record the SteamOS build, symptom, commands run, sanitized result, and whether
 the issue was resolved. Diagnostics alone do not authorize a configuration
 change. Follow the [verification standard](verification.md) before turning a
 finding into reusable guidance.
+
+## Compatibility record
+
+| Review date | SteamOS version/build | Scope | Result |
+| --- | --- | --- | --- |
+| 2026-10-26 | 3.9.5 / 20261023.100 | Ran all eight read-only collector profiles through an existing strict-host-key SSH connection | Passed: 26 command sections completed with no unavailable-command marker; no repair was attempted |
