@@ -284,6 +284,33 @@ Before making changes:
 After significant changes, reboot if appropriate, confirm that Gaming Mode
 works normally, and record the final result.
 
+### Update the SS
+
+In this guide, **SS** means **Steam Deck Support**. Steam Deck Support means
+the `/home/deck/steamdeck-support` folder and its Git repository.
+
+After support work has produced verified, reusable knowledge, update the SS.
+Examples include a changed procedure, a confirmed configuration, a new recovery
+step, or a correction to existing guidance. Do not document unverified
+observations or transient session details.
+
+For each update, record only the details needed to repeat the work safely:
+
+1. What changed and why.
+2. Verified commands, paths, and expected results.
+3. Required approval, safety constraints, recovery steps, and SteamOS-update
+   risks.
+4. Verification performed, including Gaming Mode after significant changes.
+5. Remaining limitations or unresolved risks.
+
+Never record passwords, private keys, tokens, host-key material, or sensitive
+diagnostic output. Before handoff, review the documentation diff for accuracy
+and scope, confirm its commands and Markdown links are valid, exclude unrelated
+changes, then commit and push the documentation update to the Steam Deck
+Support Git repository. The SS update is complete only after the push succeeds,
+unless the owner explicitly directs otherwise or a documented blocker prevents
+the push.
+
 ## Non-Steam games, launchers, and artwork
 
 For the complete repeatable procedure, use the
@@ -425,6 +452,7 @@ changes, and record each change made during a support session.
 - [ ] Key-based authentication works, if configured.
 - [ ] Temporary shared sudo authorization has been verified or intentionally omitted.
 - [ ] Significant changes have been recorded and normal Gaming Mode operation has been checked.
+- [ ] The SS update, if needed, has been reviewed, committed, and pushed, or a documented exception applies.
 - [ ] Support access has been reviewed or disabled when it is no longer needed.
 
 ### Non-Steam game completion checklist
