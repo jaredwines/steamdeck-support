@@ -16,9 +16,9 @@ diagnostics.
 
 | Item | Record |
 | --- | --- |
-| Source or creation method | Original fantasy artwork generated for SS with OpenAI's built-in image-generation tool on 2026-10-28; exact Steam formats were resized and composed locally with FFmpeg |
-| Redistribution status | Project-created AI artwork with no third-party source images; intended for this SS repository and the owner's Steam Deck |
+| Source or creation method | Owner-supplied 1200x675 WoW Forever map-and-logo image adapted into four format-specific assets with OpenAI's built-in image-generation tool on 2026-10-28; exact Steam formats were resized locally with FFmpeg |
+| Redistribution status | Source image supplied by the owner, who explicitly directed publication to the SS Git repository on 2026-10-28; redistribution rights were not independently assessed |
 | Repository format and visual validation | Passed 2026-10-28: wide 920x430 RGB, portrait 600x900 RGB, hero 1920x620 RGB, and logo 1200x300 RGBA with transparency |
 | SteamOS build | 3.9.5 / 20261023.100 |
-| Wide, portrait, hero, logo, and Gaming Mode verification | All four installed files matched this backup byte for byte and had the required formats on 2026-10-28. The portrait cover, title-free hero, and transparent logo were visually verified in Steam's gamepad UI; the wide cover was visually verified in the Desktop library collection. The gamepad recent-shelf placement was not exercised because this new shortcut has no launch history. |
+| Wide, portrait, hero, logo, and Gaming Mode verification | Replacement repository files passed format validation and matched the installed files byte for byte on 2026-10-28. The portrait cover, title-free hero, and wide transparent logo were visually verified in Steam's gamepad UI. The wide cover was visually reviewed before installation; its gamepad recent-shelf placement was not exercised because the shortcut has no launch history. |
 
